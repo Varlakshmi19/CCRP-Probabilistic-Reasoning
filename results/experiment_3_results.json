@@ -1,0 +1,128 @@
+{
+  "experiment": "Experiment 3 (Risk Probability Comparison)",
+  "paper": "Dong et al., Journal of Cloud Computing (2024) 13:24",
+  "target": "S7",
+  "target_description": "workstation root permission",
+  "evidence_alarms": [
+    "V1",
+    "V4"
+  ],
+  "evidence_mapping": "o1 -> V1, o4 -> V4",
+  "simplification_surviving_hypotheses": [
+    "B2"
+  ],
+  "only_b2_survives_verified": true,
+  "winning_attack_path": [
+    "B2",
+    "V1",
+    "S1",
+    "V4",
+    "S4",
+    "V8",
+    "S7"
+  ],
+  "table_10_comparison": [
+    {
+      "node": "S1",
+      "prior": 0.65,
+      "ref_32": 0.928,
+      "ref_35": 0.97,
+      "ref_36": 1.0,
+      "ccrp": 0.95
+    },
+    {
+      "node": "S2",
+      "prior": 0.9,
+      "ref_32": 0.9,
+      "ref_35": 0.9,
+      "ref_36": 0.9,
+      "ccrp": 0.9
+    },
+    {
+      "node": "S3",
+      "prior": 0.5,
+      "ref_32": 0.5,
+      "ref_35": 0.5,
+      "ref_36": 0.5,
+      "ccrp": 0.5
+    },
+    {
+      "node": "S4",
+      "prior": 0.846,
+      "ref_32": 0.939,
+      "ref_35": 0.979,
+      "ref_36": 0.9,
+      "ccrp": 1.0
+    },
+    {
+      "node": "S5",
+      "prior": 0.63,
+      "ref_32": 0.63,
+      "ref_35": 0.63,
+      "ref_36": 0.63,
+      "ccrp": 0.63
+    },
+    {
+      "node": "S6",
+      "prior": 0.485,
+      "ref_32": 0.485,
+      "ref_35": 0.485,
+      "ref_36": 0.485,
+      "ccrp": 0.485
+    },
+    {
+      "node": "S7",
+      "prior": 0.593,
+      "ref_32": 0.657,
+      "ref_35": 0.685,
+      "ref_36": 0.63,
+      "ccrp": 0.7
+    },
+    {
+      "node": "S8",
+      "prior": 0.466,
+      "ref_32": 0.466,
+      "ref_35": 0.466,
+      "ref_36": 0.466,
+      "ccrp": 0.466
+    }
+  ],
+  "table_11_qualitative_features": {
+    "features": [
+      "Shortest route",
+      "Most possible route",
+      "Evidence association",
+      "Dynamic update"
+    ],
+    "methods": {
+      "Ref [32]": {
+        "shortest_route": true,
+        "most_possible": true,
+        "evidence_assoc": false,
+        "dynamic_update": true
+      },
+      "Ref [35]": {
+        "shortest_route": false,
+        "most_possible": true,
+        "evidence_assoc": true,
+        "dynamic_update": true
+      },
+      "Ref [36]": {
+        "shortest_route": false,
+        "most_possible": false,
+        "evidence_assoc": true,
+        "dynamic_update": false
+      },
+      "CCRP": {
+        "shortest_route": true,
+        "most_possible": true,
+        "evidence_assoc": true,
+        "dynamic_update": true
+      }
+    }
+  },
+  "limitations": [
+    "Full transition matrices beyond Table 10 priors were not printed in the paper (deferred to Ref [35])",
+    "Intermediate CCRP chain expressions for Exp. 3 were not tabulated in the text like Tables 3 and 8"
+  ]
+}

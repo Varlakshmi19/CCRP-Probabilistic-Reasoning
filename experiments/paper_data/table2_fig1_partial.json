@@ -1,0 +1,44 @@
+{
+  "name": "table2_fig1_partial",
+  "description": "Partial DUCAG demonstration built ONLY from transition probabilities listed in Table 2 of Dong et al. (2024), with r=1 as stated for the Fig. 1 worked example. This is NOT the complete Experiment 1–4 graphs.",
+  "completeness": "partial_demonstration",
+  "metadata": {
+    "paper": "Dong et al., Journal of Cloud Computing (2024) 13:24",
+    "doi": "10.1186/s13677-023-00568-7",
+    "source_in_paper": "Table 2 (Parameters related to attack graph instances); Fig. 1 narrative; r=1 stated for the worked example",
+    "demonstration_note": "PARTIAL DEMONSTRATION - edges and transition probabilities are exactly those printed in Table 2. Full Fig. 1 topology, V7->S6 used in Table 3 path text, B-type priors, and complete experiment graphs are NOT claimed here.",
+    "verified_status": "verified_from_paper_table_2",
+    "unresolved": [
+      "Exact full topology of Fig. 1 beyond Table 2 edges",
+      "Edge V7->S6 appears in Table 3 / path narrative but is not listed in Table 2 - omitted (not invented)",
+      "B1/B2 prior state probabilities not given in Table 2 - omitted",
+      "Full transition matrices A beyond scalar Table 2 values - not provided in Table 2"
+    ]
+  },
+  "nodes": [
+    {"id": "B1", "node_type": "B", "description": "Root hypothesis / attacker strategy B1 (Table 2 / Fig. 1)"},
+    {"id": "B2", "node_type": "B", "description": "Root hypothesis / attacker strategy B2 (Table 2)"},
+    {"id": "V1", "node_type": "V", "description": "Attack behavior V1"},
+    {"id": "V3", "node_type": "V", "description": "Attack behavior V3"},
+    {"id": "V4", "node_type": "V", "description": "Attack behavior V4 (evidence node in Fig. 1 narrative)"},
+    {"id": "V6", "node_type": "V", "description": "Attack behavior V6"},
+    {"id": "V7", "node_type": "V", "description": "Attack behavior V7"},
+    {"id": "V8", "node_type": "V", "description": "Attack behavior V8"},
+    {"id": "S2", "node_type": "S", "description": "Resource / state node S2"},
+    {"id": "S5", "node_type": "S", "description": "Resource / state node S5"},
+    {"id": "S6", "node_type": "S", "description": "Resource / state node S6 (target in worked path example)"},
+    {"id": "S7", "node_type": "S", "description": "Resource / state node S7 (appears in Table 2 edge S7→V6 only)"}
+  ],
+  "edges": [
+    {"source": "B1", "target": "V1", "r": 1, "transition_probability": 0.845, "description": "Table 2: B1->V1"},
+    {"source": "V1", "target": "S2", "r": 1, "transition_probability": 1, "description": "Table 2: V1->S2"},
+    {"source": "S2", "target": "V3", "r": 1, "transition_probability": 0.284, "description": "Table 2: S2->V3"},
+    {"source": "S2", "target": "V4", "r": 1, "transition_probability": 0.572, "description": "Table 2: S2->V4"},
+    {"source": "V4", "target": "S5", "r": 1, "transition_probability": 1, "description": "Table 2: V4->S5"},
+    {"source": "V3", "target": "S6", "r": 1, "transition_probability": 1, "description": "Table 2: V3->S6"},
+    {"source": "S5", "target": "V7", "r": 1, "transition_probability": 0.238, "description": "Table 2: S5->V7"},
+    {"source": "B2", "target": "V8", "r": 1, "transition_probability": 0.155, "description": "Table 2: B2->V8"},
+    {"source": "V8", "target": "S5", "r": 1, "transition_probability": 1, "description": "Table 2: V8->S5"},
+    {"source": "S7", "target": "V6", "r": 1, "transition_probability": 1, "description": "Table 2: S7->V6"}
+  ]
+}

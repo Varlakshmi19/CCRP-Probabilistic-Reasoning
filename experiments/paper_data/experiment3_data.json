@@ -1,0 +1,81 @@
+{
+  "name": "experiment3_risk_comparison",
+  "description": "Experiment 3 risk-probability comparison from Dong et al. (2024), Table 10 and Table 11.",
+  "completeness": "table_10_and_topology_verified",
+  "metadata": {
+    "paper": "Dong et al., Journal of Cloud Computing (2024) 13:24",
+    "doi": "10.1186/s13677-023-00568-7",
+    "section": "Experiment 3: Risk probability comparison",
+    "tables": ["Table 10", "Table 11"],
+    "figures": ["Fig. 7", "Fig. 8"],
+    "unresolved": [
+      "Full transition matrices beyond Table 10 priors were not printed in the paper (deferred to Ref [35])",
+      "Intermediate CCRP chain expressions for Exp. 3 were not tabulated in the text like Tables 3 and 8"
+    ]
+  },
+  "inputs": {
+    "target": "S7",
+    "target_description": "workstation root permission",
+    "evidence_alarms": ["V1", "V4"],
+    "evidence_mapping": "o1 -> V1, o4 -> V4",
+    "surviving_hypothesis": "B2",
+    "winning_attack_path": ["B2", "V1", "S1", "V4", "S4", "V8", "S7"]
+  },
+  "table_10_risk_probabilities": {
+    "nodes": ["S1", "S2", "S3", "S4", "S5", "S6", "S7", "S8"],
+    "node_priors": {
+      "S1": 0.650, "S2": 0.900, "S3": 0.500, "S4": 0.846,
+      "S5": 0.630, "S6": 0.485, "S7": 0.593, "S8": 0.466
+    },
+    "ref_32_probabilities": {
+      "S1": 0.928, "S2": 0.900, "S3": 0.500, "S4": 0.939,
+      "S5": 0.630, "S6": 0.485, "S7": 0.657, "S8": 0.466
+    },
+    "ref_35_probabilities": {
+      "S1": 0.970, "S2": 0.900, "S3": 0.500, "S4": 0.979,
+      "S5": 0.630, "S6": 0.485, "S7": 0.685, "S8": 0.466
+    },
+    "ref_36_probabilities": {
+      "S1": 1.000, "S2": 0.900, "S3": 0.500, "S4": 0.900,
+      "S5": 0.630, "S6": 0.485, "S7": 0.630, "S8": 0.466
+    },
+    "ccrp_published": {
+      "S1": 0.950, "S2": 0.900, "S3": 0.500, "S4": 1.000,
+      "S5": 0.630, "S6": 0.485, "S7": 0.700, "S8": 0.466
+    }
+  },
+  "table_11_features": {
+    "features": [
+      "Shortest route",
+      "Most possible route",
+      "Evidence association",
+      "Dynamic update"
+    ],
+    "methods": {
+      "Ref [32]": {"shortest_route": true, "most_possible": true, "evidence_assoc": false, "dynamic_update": true},
+      "Ref [35]": {"shortest_route": false, "most_possible": true, "evidence_assoc": true, "dynamic_update": true},
+      "Ref [36]": {"shortest_route": false, "most_possible": false, "evidence_assoc": true, "dynamic_update": false},
+      "CCRP": {"shortest_route": true, "most_possible": true, "evidence_assoc": true, "dynamic_update": true}
+    }
+  },
+  "winning_path_graph": {
+    "nodes": [
+      {"id": "B1", "node_type": "B", "description": "Hypothesis B1 (pruned under evidence V1, V4)"},
+      {"id": "B2", "node_type": "B", "description": "Hypothesis B2 (survives simplification)"},
+      {"id": "V1", "node_type": "V", "description": "Atomic attack V1 (evidence alarm o1)"},
+      {"id": "S1", "node_type": "S", "description": "State S1"},
+      {"id": "V4", "node_type": "V", "description": "Atomic attack V4 (evidence alarm o4)"},
+      {"id": "S4", "node_type": "S", "description": "State S4"},
+      {"id": "V8", "node_type": "V", "description": "Atomic attack V8"},
+      {"id": "S7", "node_type": "S", "description": "State S7 (target)"}
+    ],
+    "edges": [
+      {"source": "B2", "target": "V1", "r": 1.0, "transition_probability": 1.0},
+      {"source": "V1", "target": "S1", "r": 1.0, "transition_probability": 0.950},
+      {"source": "S1", "target": "V4", "r": 1.0, "transition_probability": 1.0},
+      {"source": "V4", "target": "S4", "r": 1.0, "transition_probability": 1.0},
+      {"source": "S4", "target": "V8", "r": 1.0, "transition_probability": 0.700},
+      {"source": "V8", "target": "S7", "r": 1.0, "transition_probability": 1.0}
+    ]
+  }
+}

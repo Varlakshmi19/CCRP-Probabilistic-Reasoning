@@ -1,0 +1,175 @@
+{
+  "name": "experiment2_simulated_network",
+  "description": "Experiment 2 simulated network attack scenario construction from Dong et al. (2024), Table 6, Table 7, Table 8, Table 9.",
+  "completeness": "complete_verified_case",
+  "metadata": {
+    "paper": "Dong et al., Journal of Cloud Computing (2024) 13:24",
+    "doi": "10.1186/s13677-023-00568-7",
+    "section": "Experiment 2: Simulated network attack scenario construction",
+    "tables": ["Table 6", "Table 7", "Table 8", "Table 9"],
+    "figures": ["Fig. 5", "Fig. 6"],
+    "primary_case": "Path 1 incomplete-alarm case (required by PROJECT_SPEC)"
+  },
+  "graph": {
+    "nodes": [
+      {"id": "B1", "node_type": "B", "description": "Attacker strategy v1 hypothesis"},
+      {"id": "B2", "node_type": "B", "description": "Attacker strategy v2 hypothesis"},
+      {"id": "BX1", "node_type": "BX", "description": "Integrated hypothesis: attacker takes v1 and v2 simultaneously"},
+      {"id": "V1", "node_type": "V", "description": "Atomic attack V1"},
+      {"id": "V2", "node_type": "V", "description": "Atomic attack V2"},
+      {"id": "V3", "node_type": "V", "description": "Atomic attack V3"},
+      {"id": "V4", "node_type": "V", "description": "Atomic attack V4"},
+      {"id": "V5", "node_type": "V", "description": "Atomic attack V5"},
+      {"id": "V6", "node_type": "V", "description": "Atomic attack V6"},
+      {"id": "V7", "node_type": "V", "description": "Atomic attack V7"},
+      {"id": "V8", "node_type": "V", "description": "Atomic attack V8"},
+      {"id": "V9", "node_type": "V", "description": "Atomic attack V9"},
+      {"id": "V10", "node_type": "V", "description": "Atomic attack V10"},
+      {"id": "V11", "node_type": "V", "description": "Atomic attack V11"},
+      {"id": "V12", "node_type": "V", "description": "Atomic attack V12"},
+      {"id": "V13", "node_type": "V", "description": "Atomic attack V13"},
+      {"id": "S2", "node_type": "S", "description": "Resource node S2"},
+      {"id": "S3", "node_type": "S", "description": "Resource node S3"},
+      {"id": "S4", "node_type": "S", "description": "Resource node S4"},
+      {"id": "S5", "node_type": "S", "description": "Resource node S5"},
+      {"id": "S6", "node_type": "S", "description": "Resource node S6"},
+      {"id": "S7", "node_type": "S", "description": "Resource node S7"},
+      {"id": "S8", "node_type": "S", "description": "Resource node S8"},
+      {"id": "S9", "node_type": "S", "description": "Target resource node S9"}
+    ],
+    "edges": [
+      {"source": "B1", "target": "V1", "r": 1.0, "transition_probability": 0.845},
+      {"source": "B2", "target": "V2", "r": 1.0, "transition_probability": 0.155},
+      {"source": "BX1", "target": "V1", "r": 1.0, "transition_probability": 1.0},
+      {"source": "BX1", "target": "V2", "r": 1.0, "transition_probability": 1.0},
+      {"source": "V1", "target": "S2", "r": 1.0, "transition_probability": 1.0},
+      {"source": "V2", "target": "S3", "r": 1.0, "transition_probability": 1.0},
+      {"source": "S2", "target": "V3", "r": 1.0, "transition_probability": 0.284},
+      {"source": "S2", "target": "V4", "r": 1.0, "transition_probability": 0.572},
+      {"source": "S2", "target": "V5", "r": 1.0, "transition_probability": 0.144},
+      {"source": "S3", "target": "V9", "r": 1.0, "transition_probability": 1.0},
+      {"source": "V3", "target": "S4", "r": 1.0, "transition_probability": 1.0},
+      {"source": "V4", "target": "S5", "r": 1.0, "transition_probability": 1.0},
+      {"source": "V5", "target": "S8", "r": 1.0, "transition_probability": 1.0},
+      {"source": "S4", "target": "V6", "r": 1.0, "transition_probability": 1.0},
+      {"source": "S5", "target": "V7", "r": 1.0, "transition_probability": 0.238},
+      {"source": "S5", "target": "V8", "r": 1.0, "transition_probability": 0.301},
+      {"source": "S5", "target": "V9", "r": 1.0, "transition_probability": 0.286},
+      {"source": "S5", "target": "V10", "r": 1.0, "transition_probability": 0.175},
+      {"source": "V6", "target": "S6", "r": 1.0, "transition_probability": 1.0},
+      {"source": "V7", "target": "S6", "r": 1.0, "transition_probability": 1.0},
+      {"source": "V8", "target": "S7", "r": 1.0, "transition_probability": 1.0},
+      {"source": "V9", "target": "S9", "r": 1.0, "transition_probability": 1.0},
+      {"source": "V10", "target": "S8", "r": 1.0, "transition_probability": 1.0},
+      {"source": "S6", "target": "V11", "r": 1.0, "transition_probability": 1.0},
+      {"source": "S7", "target": "V12", "r": 1.0, "transition_probability": 1.0},
+      {"source": "V11", "target": "S8", "r": 1.0, "transition_probability": 1.0},
+      {"source": "V12", "target": "S8", "r": 1.0, "transition_probability": 1.0},
+      {"source": "S8", "target": "V13", "r": 1.0, "transition_probability": 1.0},
+      {"source": "V13", "target": "S9", "r": 1.0, "transition_probability": 1.0}
+    ]
+  },
+  "path_1": {
+    "simulated_true_path": [
+      "B1", "V1", "S2", "V3", "S4", "V6", "S6", "V11", "S8", "V13", "S9"
+    ],
+    "observed_evidence": ["V1", "V3", "S4", "V6", "V11", "V13", "S9"],
+    "missing_alarms": ["S2", "S6", "S8"],
+    "target": "S9",
+    "published_table_8_posteriors_b1": {
+      "V1": 1.0,
+      "S2": 0.473,
+      "V5": 0.197,
+      "V3": 1.0,
+      "V4": 1.0,
+      "S4": 1.0,
+      "S5": 0.4126,
+      "V6": 1.0,
+      "V7": 0.369,
+      "V8": 0.2755,
+      "V10": 0.2125,
+      "S6": 0.5396,
+      "S7": 0.2755,
+      "V11": 1.0,
+      "V12": 0.2755,
+      "S8": 0.3512,
+      "V13": 1.0,
+      "S9": 1.0
+    },
+    "candidate_paths": [
+      {
+        "id": 1,
+        "name": "B1(BX1) -> V1 -> S2 -> V5 -> S8 -> V13 -> S9",
+        "nodes": ["V1", "S2", "V5", "S8", "V13", "S9"],
+        "hypotheses": ["B1", "BX1"],
+        "published_posterior": 0.0654,
+        "published_normalized": 0.1293
+      },
+      {
+        "id": 2,
+        "name": "B1(BX1) -> V1 -> S2 -> V3 -> S4 -> V6 -> S6 -> V11 -> S8 -> V13 -> S9",
+        "nodes": ["V1", "S2", "V3", "S4", "V6", "S6", "V11", "S8", "V13", "S9"],
+        "hypotheses": ["B1", "BX1"],
+        "published_posterior": 0.1792,
+        "published_normalized": 0.3542,
+        "is_true_path": true
+      },
+      {
+        "id": 3,
+        "name": "B1(BX1) -> V1 -> S2 -> V4 -> S5 -> V7 -> S6 -> V11 -> S8 -> V13 -> S9",
+        "nodes": ["V1", "S2", "V4", "S5", "V7", "S6", "V11", "S8", "V13", "S9"],
+        "hypotheses": ["B1", "BX1"],
+        "published_posterior": 0.0249,
+        "published_normalized": 0.0492
+      },
+      {
+        "id": 4,
+        "name": "B1(BX1) -> V1 -> S2 -> V4 -> S5 -> V8 -> S7 -> V12 -> S8 -> V13 -> S9",
+        "nodes": ["V1", "S2", "V4", "S5", "V8", "S7", "V12", "S8", "V13", "S9"],
+        "hypotheses": ["B1", "BX1"],
+        "published_posterior": 0.0025,
+        "published_normalized": 0.0049
+      },
+      {
+        "id": 5,
+        "name": "B1(BX1) -> V1 -> S2 -> V4 -> S5 -> V10 -> S8 -> V13 -> S9",
+        "nodes": ["V1", "S2", "V4", "S5", "V10", "S8", "V13", "S9"],
+        "hypotheses": ["B1", "BX1"],
+        "published_posterior": 0.0261,
+        "published_normalized": 0.0516
+      },
+      {
+        "id": 6,
+        "name": "BX1 -> V1 -> S2 -> V4 -> S5 -> V9 -> S9",
+        "nodes": ["V1", "S2", "V4", "S5", "V9", "S9"],
+        "hypotheses": ["BX1"],
+        "published_posterior": 0.0589,
+        "published_normalized": 0.1164
+      },
+      {
+        "id": 7,
+        "name": "BX1 -> V2 -> S3 -> V9 -> S9",
+        "nodes": ["V2", "S3", "V9", "S9"],
+        "hypotheses": ["BX1"],
+        "published_posterior": 0.1488,
+        "published_normalized": 0.2941
+      }
+    ],
+    "top_3_published": [
+      {"rank": 1, "path_id": 2, "probability": 0.3542},
+      {"rank": 2, "path_id": 7, "probability": 0.2941},
+      {"rank": 3, "path_id": 1, "probability": 0.1293}
+    ]
+  },
+  "path_2": {
+    "observed_evidence": ["V1", "S2", "V5", "V3", "S8", "V13", "S9"],
+    "redundant_alarms": ["V3"],
+    "top_candidate_published": {"probability": 0.8839, "runner_up": 0.0622}
+  },
+  "path_3": {
+    "observed_evidence": ["V1", "S2", "S5", "V9", "V8", "S8", "V13", "S9"],
+    "redundant_alarms": ["V9"],
+    "missing_alarms": ["V4", "S7", "V12"],
+    "top_candidate_published": {"probability": 0.1882}
+  }
+}

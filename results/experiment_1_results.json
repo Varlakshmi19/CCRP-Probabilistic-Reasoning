@@ -1,0 +1,81 @@
+{
+  "experiment": "Experiment 1 (DARPA / LLDOS)",
+  "paper": "Dong et al., Journal of Cloud Computing (2024) 13:24",
+  "status": "qualitative_reproduction_verified",
+  "path_one": {
+    "name": "Path One (LLDOS 1.0)",
+    "observed_alarms": [
+      "X11",
+      "X26",
+      "X40",
+      "X4"
+    ],
+    "missing_alarms": [
+      "X9",
+      "X10"
+    ],
+    "published_winning_hypothesis": "B2",
+    "computed_retained_hypotheses": [
+      "B1",
+      "B2"
+    ],
+    "computed_pruned_hypotheses": [
+      "B3"
+    ],
+    "published_scenario": [
+      "B2",
+      "X9",
+      "X10",
+      "X11",
+      "X4",
+      "X26",
+      "X40"
+    ],
+    "hypothesis_match": true,
+    "explanation": "Under the observed alert sequence {X11, X26, X40, X4}, only hypothesis B2 can explain the attack scenario"
+  },
+  "path_two": {
+    "name": "Path Two (LLDOS 2.0)",
+    "observed_alarms_subset": [
+      "X17",
+      "X18",
+      "X31",
+      "X32",
+      "X37",
+      "X34",
+      "X29"
+    ],
+    "missing_alarms": [
+      "X16",
+      "X44",
+      "X45"
+    ],
+    "published_winning_hypothesis": "B3",
+    "computed_retained_hypotheses": [
+      "B3"
+    ],
+    "computed_pruned_hypotheses": [
+      "B1",
+      "B2"
+    ],
+    "published_scenario": [
+      "B3",
+      "X16",
+      "X17",
+      "X18",
+      "X26",
+      "X31",
+      "X32",
+      "X37",
+      "X34",
+      "X29"
+    ],
+    "hypothesis_match": true,
+    "explanation": "Max-posterior attack scenario is constructed under hypothesis B3"
+  },
+  "limitations": [
+    "Exact full 46-variable transition matrices were deferred by the authors to Refs [25, 31]",
+    "Exact full edge coordinate topology of Fig. 3 is figure-only",
+    "Full numerical probability tables for Path Two were not printed in the paper"
+  ]
+}

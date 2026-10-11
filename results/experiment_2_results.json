@@ -1,0 +1,296 @@
+{
+  "experiment": "Experiment 2 (Simulated Network)",
+  "paper": "Dong et al., Journal of Cloud Computing (2024) 13:24",
+  "primary_scenario": {
+    "name": "Path 1 (Incomplete alarms)",
+    "observed_evidence": [
+      "V1",
+      "V3",
+      "S4",
+      "V6",
+      "V11",
+      "V13",
+      "S9"
+    ],
+    "missing_alarms": [
+      "S2",
+      "S6",
+      "S8"
+    ],
+    "target": "S9",
+    "table_9_published_reproduction": {
+      "winner": "B1(BX1) -> V1 -> S2 -> V3 -> S4 -> V6 -> S6 -> V11 -> S8 -> V13 -> S9",
+      "true_path_winner": true,
+      "top_3": [
+        {
+          "rank": 1,
+          "path_id": 2,
+          "name": "B1(BX1) -> V1 -> S2 -> V3 -> S4 -> V6 -> S6 -> V11 -> S8 -> V13 -> S9",
+          "is_true_path": true,
+          "recomputed_normalized": 0.354290233293792,
+          "published_normalized": 0.3542,
+          "diff": 9.023329379198586e-05
+        },
+        {
+          "rank": 2,
+          "path_id": 7,
+          "name": "BX1 -> V2 -> S3 -> V9 -> S9",
+          "is_true_path": false,
+          "recomputed_normalized": 0.29418742586002367,
+          "published_normalized": 0.2941,
+          "diff": 8.742586002369324e-05
+        },
+        {
+          "rank": 3,
+          "path_id": 1,
+          "name": "B1(BX1) -> V1 -> S2 -> V5 -> S8 -> V13 -> S9",
+          "is_true_path": false,
+          "recomputed_normalized": 0.12930011862396204,
+          "published_normalized": 0.1293,
+          "diff": 1.1862396204209702e-07
+        }
+      ],
+      "all_7_candidates": [
+        {
+          "rank": 1,
+          "path_id": 2,
+          "name": "B1(BX1) -> V1 -> S2 -> V3 -> S4 -> V6 -> S6 -> V11 -> S8 -> V13 -> S9",
+          "is_true_path": true,
+          "recomputed_normalized": 0.354290233293792,
+          "published_normalized": 0.3542,
+          "diff": 9.023329379198586e-05
+        },
+        {
+          "rank": 2,
+          "path_id": 7,
+          "name": "BX1 -> V2 -> S3 -> V9 -> S9",
+          "is_true_path": false,
+          "recomputed_normalized": 0.29418742586002367,
+          "published_normalized": 0.2941,
+          "diff": 8.742586002369324e-05
+        },
+        {
+          "rank": 3,
+          "path_id": 1,
+          "name": "B1(BX1) -> V1 -> S2 -> V5 -> S8 -> V13 -> S9",
+          "is_true_path": false,
+          "recomputed_normalized": 0.12930011862396204,
+          "published_normalized": 0.1293,
+          "diff": 1.1862396204209702e-07
+        },
+        {
+          "rank": 4,
+          "path_id": 6,
+          "name": "BX1 -> V1 -> S2 -> V4 -> S5 -> V9 -> S9",
+          "is_true_path": false,
+          "recomputed_normalized": 0.11644918940292605,
+          "published_normalized": 0.1164,
+          "diff": 4.918940292604479e-05
+        },
+        {
+          "rank": 5,
+          "path_id": 5,
+          "name": "B1(BX1) -> V1 -> S2 -> V4 -> S5 -> V10 -> S8 -> V13 -> S9",
+          "is_true_path": false,
+          "recomputed_normalized": 0.051601423487544484,
+          "published_normalized": 0.0516,
+          "diff": 1.4234875444843476e-06
+        },
+        {
+          "rank": 6,
+          "path_id": 3,
+          "name": "B1(BX1) -> V1 -> S2 -> V4 -> S5 -> V7 -> S6 -> V11 -> S8 -> V13 -> S9",
+          "is_true_path": false,
+          "recomputed_normalized": 0.049228944246737835,
+          "published_normalized": 0.0492,
+          "diff": 2.8944246737834523e-05
+        },
+        {
+          "rank": 7,
+          "path_id": 4,
+          "name": "B1(BX1) -> V1 -> S2 -> V4 -> S5 -> V8 -> S7 -> V12 -> S8 -> V13 -> S9",
+          "is_true_path": false,
+          "recomputed_normalized": 0.0049426650850138395,
+          "published_normalized": 0.0049,
+          "diff": 4.266508501383961e-05
+        }
+      ]
+    },
+    "first_principles_ranking": {
+      "winner": "BX1 -> V2 -> S3 -> V9 -> S9",
+      "winner_normalized": 0.4222116810910183,
+      "top_3": [
+        {
+          "id": 7,
+          "name": "BX1 -> V2 -> S3 -> V9 -> S9",
+          "hypotheses": [
+            "BX1"
+          ],
+          "is_true_path": false,
+          "raw_probability": 0.7211973333333334,
+          "published_posterior": 0.1488,
+          "published_normalized": 0.2941,
+          "computed_normalized": 0.4222116810910183,
+          "computed_rank": 1
+        },
+        {
+          "id": 2,
+          "name": "B1(BX1) -> V1 -> S2 -> V3 -> S4 -> V6 -> S6 -> V11 -> S8 -> V13 -> S9",
+          "hypotheses": [
+            "B1",
+            "BX1"
+          ],
+          "is_true_path": true,
+          "raw_probability": 0.4587987204437332,
+          "published_posterior": 0.1792,
+          "published_normalized": 0.3542,
+          "computed_normalized": 0.26859525137959017,
+          "computed_rank": 2
+        },
+        {
+          "id": 1,
+          "name": "B1(BX1) -> V1 -> S2 -> V5 -> S8 -> V13 -> S9",
+          "hypotheses": [
+            "B1",
+            "BX1"
+          ],
+          "is_true_path": false,
+          "raw_probability": 0.3685620223999999,
+          "published_posterior": 0.0654,
+          "published_normalized": 0.1293,
+          "computed_normalized": 0.21576784032822663,
+          "computed_rank": 3
+        }
+      ],
+      "omitted_bx1_limitation": "The paper explicitly omitted BX1 node posteriors 'due to space limitations' (Section 4.2). Table 8 only reports posteriors under B1."
+    },
+    "table_8_node_posteriors_comparison": {
+      "V1": {
+        "published": 1.0,
+        "computed": 1.0,
+        "diff": 0.0
+      },
+      "S2": {
+        "published": 0.473,
+        "computed": 0.39999999999999997,
+        "diff": 0.07300000000000001
+      },
+      "V5": {
+        "published": 0.197,
+        "computed": 0.572,
+        "diff": 0.37499999999999994
+      },
+      "V3": {
+        "published": 1.0,
+        "computed": 1.0,
+        "diff": 0.0
+      },
+      "V4": {
+        "published": 1.0,
+        "computed": 0.39299999999999996,
+        "diff": 0.607
+      },
+      "S4": {
+        "published": 1.0,
+        "computed": 1.0,
+        "diff": 0.0
+      },
+      "S5": {
+        "published": 0.4126,
+        "computed": 0.39299999999999996,
+        "diff": 0.019600000000000062
+      },
+      "V6": {
+        "published": 1.0,
+        "computed": 1.0,
+        "diff": 0.0
+      },
+      "V7": {
+        "published": 0.369,
+        "computed": 0.568068,
+        "diff": 0.19906800000000002
+      },
+      "V8": {
+        "published": 0.2755,
+        "computed": 0.586086,
+        "diff": 0.310586
+      },
+      "V10": {
+        "published": 0.2125,
+        "computed": 0.55005,
+        "diff": 0.33755
+      },
+      "S6": {
+        "published": 0.5396,
+        "computed": 0.7120453333333333,
+        "diff": 0.17244533333333334
+      },
+      "S7": {
+        "published": 0.2755,
+        "computed": 0.586086,
+        "diff": 0.310586
+      },
+      "V11": {
+        "published": 1.0,
+        "computed": 1.0,
+        "diff": 0.0
+      },
+      "V12": {
+        "published": 0.2755,
+        "computed": 0.586086,
+        "diff": 0.310586
+      },
+      "S8": {
+        "published": 0.3512,
+        "computed": 0.8054239999999999,
+        "diff": 0.4542239999999999
+      },
+      "V13": {
+        "published": 1.0,
+        "computed": 1.0,
+        "diff": 0.0
+      },
+      "S9": {
+        "published": 1.0,
+        "computed": 1.0,
+        "diff": 0.0
+      }
+    }
+  },
+  "path_2_summary": {
+    "observed_evidence": [
+      "V1",
+      "S2",
+      "V5",
+      "V3",
+      "S8",
+      "V13",
+      "S9"
+    ],
+    "redundant_alarms": [
+      "V3"
+    ],
+    "published_top_probability": 0.8839
+  },
+  "path_3_summary": {
+    "observed_evidence": [
+      "V1",
+      "S2",
+      "S5",
+      "V9",
+      "V8",
+      "S8",
+      "V13",
+      "S9"
+    ],
+    "redundant_alarms": [
+      "V9"
+    ],
+    "missing_alarms": [
+      "V4",
+      "S7",
+      "V12"
+    ],
+    "published_top_probability": 0.1882
+  }
+}

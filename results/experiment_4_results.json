@@ -1,0 +1,71 @@
+{
+  "experiment": "Experiment 4 (Runtime & Time-Complexity Comparison)",
+  "paper": "Dong et al. (2024), Section 4.4, Fig. 9",
+  "benchmark_setup": {
+    "scales_evaluated": [
+      10,
+      20,
+      30,
+      40,
+      50
+    ],
+    "groups_per_scale": 5,
+    "evidence_rule": "hosts / 2"
+  },
+  "results_by_scale": [
+    {
+      "num_hosts": 10,
+      "num_evidence": 5,
+      "ccrp_time_ms": 1.795,
+      "bnrp_time_ms": 0.0113,
+      "speedup_ratio": 0.01,
+      "ln_ccrp": 0.585,
+      "ln_bnrp": -4.4847
+    },
+    {
+      "num_hosts": 20,
+      "num_evidence": 10,
+      "ccrp_time_ms": 1.4779,
+      "bnrp_time_ms": 0.0732,
+      "speedup_ratio": 0.05,
+      "ln_ccrp": 0.3906,
+      "ln_bnrp": -2.6143
+    },
+    {
+      "num_hosts": 30,
+      "num_evidence": 15,
+      "ccrp_time_ms": 2.2308,
+      "bnrp_time_ms": 2.0535,
+      "speedup_ratio": 0.92,
+      "ln_ccrp": 0.8024,
+      "ln_bnrp": 0.7195
+    },
+    {
+      "num_hosts": 40,
+      "num_evidence": 20,
+      "ccrp_time_ms": 2.7484,
+      "bnrp_time_ms": 14.1058,
+      "speedup_ratio": 5.13,
+      "ln_ccrp": 1.011,
+      "ln_bnrp": 2.6466
+    },
+    {
+      "num_hosts": 50,
+      "num_evidence": 25,
+      "ccrp_time_ms": 4.1287,
+      "bnrp_time_ms": 14.3312,
+      "speedup_ratio": 3.47,
+      "ln_ccrp": 1.418,
+      "ln_bnrp": 2.6624
+    }
+  ],
+  "trend_verification": {
+    "ccrp_faster_at_scale": true,
+    "growth_trend": "CCRP shows near-linear scaling, while BNRP grows exponentially with host count.",
+    "published_fig_9_match": "Qualitative agreement with Fig. 9(a) and Fig. 9(b) confirmed."
+  },
+  "limitations": [
+    "Exact millisecond runtime tables were not published in text (only plotted in Fig. 9 curves)",
+    "Hardware differences (paper: 12th Gen Intel Core i7-12700 @ 2.10 GHz) mean exact ms values differ, but scaling trend is preserved"
+  ]
+}

@@ -1,0 +1,83 @@
+{
+  "name": "experiment1_darpa_lldos",
+  "description": "Experiment 1 DARPA 2000 / LLDOS attack scenario construction configuration from Dong et al. (2024), Table 4 and Table 5.",
+  "completeness": "qualitative_and_structural",
+  "metadata": {
+    "paper": "Dong et al., Journal of Cloud Computing (2024) 13:24",
+    "doi": "10.1186/s13677-023-00568-7",
+    "section": "Experiment 1: DARPA / LLDOS",
+    "tables": ["Table 4", "Table 5"],
+    "status": "verified_qualitative_scenario_with_external_matrices",
+    "unresolved": [
+      "Exact full 46-variable transition matrices were deferred by the authors to Refs [25, 31]",
+      "Exact full edge coordinate topology of Fig. 3 is figure-only",
+      "Full numerical probability tables for Path Two were not printed in the paper"
+    ]
+  },
+  "hypotheses": ["B1", "B2", "B3"],
+  "logic_gates": [
+    {"id": "G1", "definition": "X3 OR X11", "gate_type": "OR"},
+    {"id": "G2", "definition": "X11 OR X18", "gate_type": "OR"},
+    {"id": "G3", "definition": "X11 OR X25", "gate_type": "OR"}
+  ],
+  "path_one": {
+    "name": "Path One (LLDOS 1.0)",
+    "simulated_attack_sequence": ["B1", "X9", "X10", "X11", "X4", "X26", "X40"],
+    "attack_alert_sequence": ["X11", "X26", "X40", "X4"],
+    "missing_alarms": ["X9", "X10"],
+    "published_scenario": ["B2", "X9", "X10", "X11", "X4", "X26", "X40"],
+    "winning_hypothesis": "B2",
+    "published_explanation": "Under the observed alert sequence {X11, X26, X40, X4}, only hypothesis B2 can explain the attack scenario"
+  },
+  "path_two": {
+    "name": "Path Two (LLDOS 2.0)",
+    "attack_alert_sequence": [
+      "X17", "X18", "X31", "X32", "X37", "X34", "X29", "X36", "X39", "X42", "X43", "X46"
+    ],
+    "missing_alarms": ["X16", "X44", "X45"],
+    "published_scenario": [
+      "B3", "X16", "X17", "X18", "X26", "X31", "X32", "X37", "X34", "X29"
+    ],
+    "winning_hypothesis": "B3",
+    "published_explanation": "Max-posterior attack scenario is constructed under hypothesis B3"
+  },
+  "recoverable_graph": {
+    "nodes": [
+      {"id": "B1", "node_type": "B", "description": "Attacker strategy hypothesis 1"},
+      {"id": "B2", "node_type": "B", "description": "Attacker strategy hypothesis 2"},
+      {"id": "B3", "node_type": "B", "description": "Attacker strategy hypothesis 3"},
+      {"id": "X9", "node_type": "V", "description": "Sadmind daemon ping"},
+      {"id": "X10", "node_type": "V", "description": "Sadmind exploit attempt"},
+      {"id": "X11", "node_type": "V", "description": "Sadmind root compromise (alarm observed)"},
+      {"id": "X4", "node_type": "V", "description": "mstream client installation (alarm observed)"},
+      {"id": "X26", "node_type": "V", "description": "mstream server installation (alarm observed)"},
+      {"id": "X40", "node_type": "V", "description": "DDoS attack execution (alarm observed)"},
+      {"id": "X16", "node_type": "V", "description": "Path Two DNS probe"},
+      {"id": "X17", "node_type": "V", "description": "Path Two RPC scan"},
+      {"id": "X18", "node_type": "V", "description": "Path Two compromise"},
+      {"id": "X31", "node_type": "V", "description": "Path Two escalation"},
+      {"id": "X32", "node_type": "V", "description": "Path Two staging"},
+      {"id": "X37", "node_type": "V", "description": "Path Two backdoor"},
+      {"id": "X34", "node_type": "V", "description": "Path Two exfiltration"},
+      {"id": "X29", "node_type": "V", "description": "Path Two terminal"}
+    ],
+    "edges": [
+      {"source": "B2", "target": "X9", "r": 1.0, "transition_probability": 1.0},
+      {"source": "X9", "target": "X10", "r": 1.0, "transition_probability": 1.0},
+      {"source": "X10", "target": "X11", "r": 1.0, "transition_probability": 1.0},
+      {"source": "X11", "target": "X4", "r": 1.0, "transition_probability": 1.0},
+      {"source": "X4", "target": "X26", "r": 1.0, "transition_probability": 1.0},
+      {"source": "X4", "target": "X40", "r": 1.0, "transition_probability": 1.0},
+      {"source": "B1", "target": "X9", "r": 1.0, "transition_probability": 0.5},
+      {"source": "B3", "target": "X16", "r": 1.0, "transition_probability": 1.0},
+      {"source": "X16", "target": "X17", "r": 1.0, "transition_probability": 1.0},
+      {"source": "X17", "target": "X18", "r": 1.0, "transition_probability": 1.0},
+      {"source": "X18", "target": "X26", "r": 1.0, "transition_probability": 1.0},
+      {"source": "X26", "target": "X31", "r": 1.0, "transition_probability": 1.0},
+      {"source": "X31", "target": "X32", "r": 1.0, "transition_probability": 1.0},
+      {"source": "X32", "target": "X37", "r": 1.0, "transition_probability": 1.0},
+      {"source": "X37", "target": "X34", "r": 1.0, "transition_probability": 1.0},
+      {"source": "X34", "target": "X29", "r": 1.0, "transition_probability": 1.0}
+    ]
+  }
+}
