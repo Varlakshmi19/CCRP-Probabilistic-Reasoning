@@ -278,3 +278,42 @@ def test_ccrp_error_handling():
 
     with pytest.raises(CCRPError, match="Node 'MISSING' not in graph"):
         calculate_node_ccrp(g, "MISSING", evidence=["V1"])
+
+
+def test_equation_1_indegree_weighting_in_ccrp():
+    """
+    Regression test for Dong et al. (2024) Equation (1):
+      F_{n;i} = (r_{n;i} / r_n) * A_{n;i}
+    where r_n = sum_p r_{n;p} is the total association degree of target n.
+    When target node S has 2 incoming parents with r=1 each, r_n = 2.
+    Each incoming edge factor is scaled by 1/2.
+    """
+    g = DUCAGGraph(name="test_indegree_norm", normalize_weights=True)
+    g.add_node("B1", "B")
+    g.add_node("V1", "V")
+    g.add_node("V2", "V")
+    g.add_node("S1", "S")
+    # V1 and V2 both cause S1 (in-degree 2)
+    g.add_edge("B1", "V1", r=1.0, transition_probability=1.0)
+    g.add_edge("B1", "V2", r=1.0, transition_probability=1.0)
+    g.add_edge("V1", "S1", r=1.0, transition_probability=0.8)
+    g.add_edge("V2", "S1", r=1.0, transition_probability=0.6)
+
+    # With normalize_weights=True:
+    # F_{S1;V1} = (1/2) * 0.8 = 0.4
+    # F_{S1;V2} = (1/2) * 0.6 = 0.3
+    # Chain 1: B1->V1->S1 = 1.0 * 1.0 * 0.4 = 0.4
+    # Chain 2: B1->V2->S1 = 1.0 * 1.0 * 0.3 = 0.3
+    # Terminal hypothesis is B1 for both, so distinct hypotheses = {B1}, N = 1
+    # Retained sum = 0.4 + 0.3 = 0.7; Posterior Pr(S1) = 0.7 / 1 = 0.7
+    res = run_ccrp(g, evidence=[], hypothesis="B1", normalize_weights=True)
+    assert res.node_results["S1"].retained_sum == pytest.approx(0.7)
+    assert res.posteriors["S1"] == pytest.approx(0.7)
+
+    # With normalize_weights=False (unnormalized):
+    # Chain 1 = 0.8, Chain 2 = 0.6, retained_sum = 1.4, N = 1
+    # Probability is capped at 1.0
+    res_unnorm = run_ccrp(g, evidence=[], hypothesis="B1", normalize_weights=False)
+    assert res_unnorm.node_results["S1"].retained_sum == pytest.approx(1.4)
+    assert res_unnorm.posteriors["S1"] == pytest.approx(1.0)
+

@@ -46,16 +46,19 @@ class DUCAGGraph:
         description: str = "",
         completeness: str = "unspecified",
         metadata: Optional[Mapping[str, Any]] = None,
+        normalize_weights: bool = True,
     ) -> None:
         self.name = name
         self.description = description
         # completeness should be set by data files, e.g. "partial_demonstration"
         self.completeness = completeness
         self.metadata: dict[str, Any] = dict(metadata or {})
+        self.normalize_weights = bool(normalize_weights)
         self.graph = nx.DiGraph()
         self.graph.graph["name"] = name
         self.graph.graph["description"] = description
         self.graph.graph["completeness"] = completeness
+        self.graph.graph["normalize_weights"] = self.normalize_weights
 
     # ------------------------------------------------------------------ nodes
     def add_node(
@@ -345,6 +348,7 @@ class DUCAGGraph:
                 completeness if completeness is not None else self.completeness
             ),
             metadata=meta,
+            normalize_weights=self.normalize_weights,
         )
 
         for node_id in node_set:
@@ -590,6 +594,7 @@ def load_ducag_from_dict(data: Mapping[str, Any]) -> DUCAGGraph:
         description=str(data.get("description", "")),
         completeness=str(data.get("completeness", "unspecified")),
         metadata=data.get("metadata") or {},
+        normalize_weights=bool(data.get("normalize_weights", True)),
     )
 
     for node in data["nodes"]:

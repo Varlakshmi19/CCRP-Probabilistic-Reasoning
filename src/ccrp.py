@@ -147,13 +147,26 @@ class CCRPResult:
         }
 
 
-def _get_edge_factor(ducag: DUCAGGraph, source: str, target: str) -> float:
+def _get_edge_factor(
+    ducag: DUCAGGraph,
+    source: str,
+    target: str,
+    normalize_weights: Optional[bool] = None,
+) -> float:
     """
-    Extract causal transition parameter A along directed edge source -> target.
+    Extract causal factor F_{target;source} along directed edge source -> target.
 
-    In the paper's chain expressions (Table 3, Table 8), chain products are formed
-    from edge transition parameters A_{target;source}. Weighting across multiple
-    chains is performed via division by N in Equation (5).
+    Implements Equation (1) from Dong et al. (2024):
+        F_{n;i} = (r_{n;i} / r_n) * A_{n;i}
+    where:
+        r_{n;i} is the causal association weight on edge source -> target
+        r_n = sum_{p in preds(target)} r_{target;p} is the total association degree of target n
+        A_{n;i} is the transition probability parameter in [0, 1]
+
+    If normalize_weights is False (or graph attribute 'normalize_weights' is False),
+    parent degree normalization is skipped and scalar A_{n;i} is returned directly.
+    This preserves exact calibration for simplified toy examples (such as Table 3),
+    where the paper explicitly stated 'r = 1' without in-degree normalization.
     """
     data = ducag.graph.edges[source, target]
     tp = data.get("transition_probability")
@@ -161,9 +174,27 @@ def _get_edge_factor(ducag: DUCAGGraph, source: str, target: str) -> float:
         raise CCRPError(
             f"Edge {source}->{target} has no scalar transition_probability."
         )
-    return validate_unit_interval(
+    tp_val = validate_unit_interval(
         float(tp), f"transition_probability on {source}->{target}"
     )
+
+    if normalize_weights is None:
+        normalize_weights = getattr(
+            ducag,
+            "normalize_weights",
+            ducag.graph.graph.get("normalize_weights", True),
+        )
+
+    if not normalize_weights:
+        return tp_val
+
+    r_local = float(data.get("r", 1.0))
+    g = ducag.graph
+    preds = list(g.predecessors(target))
+    r_sum = sum(float(g.edges[p, target].get("r", 1.0)) for p in preds)
+    if r_sum <= 0:
+        return tp_val
+    return compute_edge_factor(r_local, r_sum, tp_val)
 
 
 def expand_upstream_chains(
@@ -172,6 +203,7 @@ def expand_upstream_chains(
     evidence_set: set[str],
     hypothesis_set: set[str],
     priors: Mapping[str, float],
+    normalize_weights: Optional[bool] = None,
 ) -> list[CausalChain]:
     """
     Expand causal chains upward (incoming into node_id).
@@ -199,7 +231,12 @@ def expand_upstream_chains(
             if is_hyp or is_evi or is_root:
                 # Terminal boundary reached; compute edge factors
                 factors = tuple(
-                    _get_edge_factor(ducag, full_path[i], full_path[i + 1])
+                    _get_edge_factor(
+                        ducag,
+                        full_path[i],
+                        full_path[i + 1],
+                        normalize_weights=normalize_weights,
+                    )
                     for i in range(len(full_path) - 1)
                 )
                 if is_evi:
@@ -244,6 +281,7 @@ def expand_downstream_chains(
     node_id: str,
     evidence_set: set[str],
     hypothesis_set: set[str],
+    normalize_weights: Optional[bool] = None,
 ) -> list[CausalChain]:
     """
     Expand causal chains backward/downstream (outgoing from node_id).
@@ -268,7 +306,12 @@ def expand_downstream_chains(
 
             if is_evi or is_sink:
                 factors = tuple(
-                    _get_edge_factor(ducag, full_path[i], full_path[i + 1])
+                    _get_edge_factor(
+                        ducag,
+                        full_path[i],
+                        full_path[i + 1],
+                        normalize_weights=normalize_weights,
+                    )
                     for i in range(len(full_path) - 1)
                 )
                 if is_evi:
@@ -309,6 +352,7 @@ def expand_causal_chains(
     evidence: Sequence[str],
     hypothesis: Optional[str] = None,
     priors: Optional[Mapping[str, float]] = None,
+    normalize_weights: Optional[bool] = None,
 ) -> list[CausalChain]:
     """
     Perform Step 1 of CCRP: expand causal chains upward and backward.
@@ -326,6 +370,9 @@ def expand_causal_chains(
         considered as root hypothesis; otherwise all B/BX nodes are considered.
     priors:
         Optional mapping of hypothesis node priors.
+    normalize_weights:
+        Whether to apply Equation (1) parent degree normalization F = (r/r_n)*A.
+        Defaults to ducag.normalize_weights.
 
     Returns
     -------
@@ -354,8 +401,21 @@ def expand_causal_chains(
             else:
                 prior_map[h] = 1.0
 
-    upstream = expand_upstream_chains(ducag, node_id, evidence_set, hypothesis_set, prior_map)
-    downstream = expand_downstream_chains(ducag, node_id, evidence_set, hypothesis_set)
+    upstream = expand_upstream_chains(
+        ducag,
+        node_id,
+        evidence_set,
+        hypothesis_set,
+        prior_map,
+        normalize_weights=normalize_weights,
+    )
+    downstream = expand_downstream_chains(
+        ducag,
+        node_id,
+        evidence_set,
+        hypothesis_set,
+        normalize_weights=normalize_weights,
+    )
     return upstream + downstream
 
 
@@ -365,6 +425,7 @@ def calculate_node_ccrp(
     evidence: Sequence[str],
     hypothesis: Optional[str] = None,
     priors: Optional[Mapping[str, float]] = None,
+    normalize_weights: Optional[bool] = None,
 ) -> NodeCCRPResult:
     """
     Calculate the CCRP posterior probability for a single node X_v.
@@ -420,7 +481,12 @@ def calculate_node_ccrp(
 
     # Step 1: Expand chains
     all_chains = expand_causal_chains(
-        ducag, node_id, evidence=evidence, hypothesis=hypothesis, priors=priors
+        ducag,
+        node_id,
+        evidence=evidence,
+        hypothesis=hypothesis,
+        priors=priors,
+        normalize_weights=normalize_weights,
     )
 
     # Step 2: Classify (Eq. 3) and eliminate UCC (Eq. 4)
@@ -515,6 +581,7 @@ def run_ccrp(
     evidence: Sequence[str],
     hypothesis: Optional[str] = None,
     priors: Optional[Mapping[str, float]] = None,
+    normalize_weights: Optional[bool] = None,
 ) -> CCRPResult:
     """
     Execute full CCRP posterior probability calculation on a DUCAG graph.
@@ -529,6 +596,9 @@ def run_ccrp(
         Optional root hypothesis ID (e.g. "B1").
     priors:
         Optional mapping of hypothesis priors.
+    normalize_weights:
+        Whether to apply Equation (1) parent degree normalization F = (r/r_n)*A.
+        Defaults to ducag.normalize_weights.
 
     Returns
     -------
@@ -551,6 +621,7 @@ def run_ccrp(
             evidence=evidence_list,
             hypothesis=hypothesis,
             priors=priors,
+            normalize_weights=normalize_weights,
         )
         node_results[node_id] = res
         posteriors[node_id] = res.posterior

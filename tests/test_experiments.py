@@ -145,6 +145,35 @@ class TestExperiment2SimulatedNetwork:
         assert p1["missing_alarms"] == ["S2", "S6", "S8"]
         assert p1["target"] == "S9"
 
+    def test_experiment_2_table_8_posteriors_reproduction(self):
+        """
+        Verify exact reproduction of Dong et al. (2024) Table 8 node posteriors
+        using Equation (1) in-degree normalization and Table 8 evidence.
+        """
+        res = run_experiment_2()
+        p1 = res["primary_scenario"]
+        t8 = p1["table_8_node_posteriors_comparison"]
+
+        # S8 posterior: published 0.3512, computed 0.35125
+        assert pytest.approx(t8["S8"]["computed"], abs=1e-4) == 0.3512
+        assert t8["S8"]["diff"] < 1e-4
+
+        # Key Table 8 nodes
+        assert pytest.approx(t8["S2"]["computed"], abs=1e-4) == 0.4730
+        assert pytest.approx(t8["V5"]["computed"], abs=1e-4) == 0.1970
+        assert pytest.approx(t8["V4"]["computed"], abs=1e-4) == 1.0000
+        assert pytest.approx(t8["V8"]["computed"], abs=1e-4) == 0.2755
+        assert pytest.approx(t8["V10"]["computed"], abs=1e-4) == 0.2125
+        assert pytest.approx(t8["S6"]["computed"], abs=1e-4) == 0.5396
+        assert pytest.approx(t8["V7"]["computed"], abs=1e-4) == 0.3690
+        assert pytest.approx(t8["S7"]["computed"], abs=1e-4) == 0.2755
+        assert pytest.approx(t8["V12"]["computed"], abs=1e-4) == 0.2755
+
+        # First-principles CCRP ranking should rank Candidate 2 (True Path) as #1
+        fp = p1["first_principles_ranking"]
+        assert "V3" in fp["winner"] and "S6" in fp["winner"]
+
+
 
 # =============================================================================
 # Experiment 3: Risk Probability Comparison Tests

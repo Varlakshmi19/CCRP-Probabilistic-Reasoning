@@ -74,6 +74,8 @@
       "B1", "V1", "S2", "V3", "S4", "V6", "S6", "V11", "S8", "V13", "S9"
     ],
     "observed_evidence": ["V1", "V3", "S4", "V6", "V11", "V13", "S9"],
+    "table_8_evidence": ["V1", "V3", "V4", "S4", "V6", "V11", "V13", "S9"],
+    "table_8_evidence_note": "Table 8 Row 5 explicitly tabulates V4 with posterior 1.0 and no causal chain expression, demonstrating that V4 was included in the observed evidence set for Table 8.",
     "missing_alarms": ["S2", "S6", "S8"],
     "target": "S9",
     "published_table_8_posteriors_b1": {

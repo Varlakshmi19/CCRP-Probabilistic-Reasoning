@@ -2,6 +2,7 @@
   "name": "table2_fig1_partial",
   "description": "Partial DUCAG demonstration built ONLY from transition probabilities listed in Table 2 of Dong et al. (2024), with r=1 as stated for the Fig. 1 worked example. This is NOT the complete Experiment 1–4 graphs.",
   "completeness": "partial_demonstration",
+  "normalize_weights": false,
   "metadata": {
     "paper": "Dong et al., Journal of Cloud Computing (2024) 13:24",
     "doi": "10.1186/s13677-023-00568-7",
