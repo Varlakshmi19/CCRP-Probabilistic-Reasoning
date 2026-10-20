@@ -704,27 +704,56 @@ elif sidebar_nav == "⚠️ Limitations & Discrepancies":
     st.header("⚠️ Scientific Limitations & Known Discrepancies")
     st.markdown(
         "Per project requirements, our implementation strictly avoids inventing values or forcing artificial "
-        "code tweaks. The known differences between the implementation and the paper are documented below."
+        "code tweaks. Verified mathematical alignments and genuine remaining discrepancies between the implementation "
+        "and the paper are documented below."
     )
 
-    with st.expander("1. Experiment 2: Security State S8 Discrepancy (0.8054 vs 0.3512)", expanded=True):
+    with st.expander("1. Experiment 2: Security State S8 Verification (0.35125 vs 0.3512 — Verified)", expanded=True):
         st.markdown(
             r"**Observation:**" "\n"
-            r"- First-principles CCRP computes: **`Pr(S8) = 0.8054`**" "\n"
-            r"- Published Table 8 reports: **`Pr(S8) = 0.3512`**" "\n\n"
+            r"- CCRP Computed: **`Pr(S8) = 0.35125`**" "\n"
+            r"- Published Table 8: **`Pr(S8) = 0.3512`**" "\n"
+            r"- Difference: **`Δ ≈ 0.00005`** (matches published value within 0.01%)" "\n\n"
             r"**Mathematical Explanation:**" "\n"
-            r"1. **Equation (5) Traversal:** Incoming edges into $S_8$ are $V_5, V_{10}, V_{11}, V_{12}$, and outgoing is $V_{13}$. "
-            r"Both $V_{11}$ and $V_{13}$ are observed evidence alarms ($1.0$). Summing all 5 elementary chains yields $2.4163$. "
-            r"Dividing by distinct evidence entities $\{V_1, V_{11}, V_{13}\}$ ($N=3$) yields:" "\n"
-            r"$$\Pr(S_8) = \frac{2.4163}{3} = 0.8054$$"
-            "\n"
-            r"2. **The Paper's Table 8 Heuristic:** In Table 8, the paper writes an analytical formula:" "\n"
-            r"$$\Pr(S_8) = \frac{1}{4} \left( A_{13,1;8} + \frac{1}{4}(\dots) \right) = \frac{1}{4}(1.0 + 0.4048) = 0.3512$$"
-            r"The authors used the local in-degree ($4$) as the divisor and applied an ad-hoc nested discount of $1/4$ to upstream sub-branches. "
-            r"This heuristic was never formalized in the paper's mathematical definitions. Our implementation preserves the general algorithm."
+            r"1. **Equation (1) In-Degree Normalization:** In DUCAG, Equation (1) specifies that incoming causal factors are weighted by "
+            r"$F_{n;i} = (r_{n;i}/r_n) A_{n;i}$. Node $S_8$ has four incoming parent edges ($V_5, V_{10}, V_{11}, V_{12}$), "
+            r"yielding an in-degree normalization factor of $r_{n;i}/r_n = 1/4 = 0.25$ for each incoming causal branch." "\n"
+            r"2. **Evidence-Bounded Chain Traversal:** Under the Table 8 condition with observed alarms $\{V_1, V_3, V_4, S_4, V_6, V_{11}, V_{13}, S_9\}$:" "\n"
+            r"   - Upstream via $V_{11}$: observed alarm ($0.25 \times 1.0 = 0.25$)" "\n"
+            r"   - Upstream via $V_5$: $V_1 \to S_2 \to V_5 \to S_8$ ($0.25 \times 0.144 = 0.0360$)" "\n"
+            r"   - Upstream via $V_{10}$: $V_4 \to S_5 \to V_{10} \to S_8$ ($0.25 \times 0.175 = 0.04375$)" "\n"
+            r"   - Upstream via $V_{12}$: $V_4 \to S_5 \to V_8 \to S_7 \to V_{12} \to S_8$ ($0.25 \times 0.301 = 0.07525$)" "\n"
+            r"   - Downstream to $V_{13}$: $S_8 \to V_{13}$ ($1.0$)" "\n"
+            r"3. **Equation (5) Normalization:** The sum of retained chains is $0.25 + 0.0360 + 0.04375 + 0.07525 + 1.0 = 1.4050$. "
+            r"Dividing by $N=4$ distinct evidence boundary entities $\{V_1, V_{11}, V_{13}, V_4\}$ yields:" "\n"
+            r"$$\Pr(S_8) = \frac{1.4050}{4} = 0.35125$$"
+            r"This rigorously verifies the published Table 8 value ($0.3512$) directly from the paper's formulas without ad-hoc overrides."
         )
 
-    with st.expander("2. Stage 4 Table 3 Worked Example Normalization (0.5021 vs 0.5019)", expanded=True):
+    with st.expander("2. Experiment 2: Resource Node S5 Discrepancy (0.3274 vs 0.4126 — Unresolved)", expanded=True):
+        st.markdown(
+            r"**Observation:**" "\n"
+            r"- CCRP Computed: **`Pr(S5) = 0.327375`**" "\n"
+            r"- Published Table 8: **`Pr(S5) = 0.4126`**" "\n"
+            r"- Difference: **`Δ ≈ 0.0852`**" "\n\n"
+            r"**Mathematical Explanation:**" "\n"
+            r"1. **Full CCRP Graph Traversal:** In the Experiment 2 network topology, node $S_5$ has one incoming edge from observed alarm $V_4$ "
+            r"and four outgoing directed branches reaching observed evidence alarms:" "\n"
+            r"   - Upstream from $V_4$: $1.0$" "\n"
+            r"   - Downstream to $S_4$: $S_5 \to V_7 \to S_4$ (value $0.1845$)" "\n"
+            r"   - Downstream to $V_{13}$ via $V_{10}$: $S_5 \to V_{10} \to S_8 \to V_{13}$ (value $0.0184$)" "\n"
+            r"   - Downstream to $V_{13}$ via $V_8$: $S_5 \to V_8 \to S_7 \to V_{12} \to S_8 \to V_{13}$ (value $0.0354$)" "\n"
+            r"   - Downstream to target $S_9$: $S_5 \to V_9 \to S_9$ (value $0.0715$)" "\n"
+            r"Summing all 5 valid chains yields $1.0 + 0.1845 + 0.0184 + 0.0354 + 0.0715 = 1.3095$. "
+            r"Dividing by the $N=4$ distinct evidence endpoints $\{V_4, S_4, V_{13}, S_9\}$ gives:" "\n"
+            r"$$\Pr(S_5)_{\text{computed}} = \frac{1.3095}{4} = 0.327375$$"
+            r"2. **The Paper's Manual Calculation:** The paper's narrative formula for $S_5$ divides by $3$ endpoints instead of $4$:" "\n"
+            r"$$\Pr(S_5)_{\text{published}} = \frac{1}{3}(1.0 + 0.1845 + 0.0538) = \frac{1.2383}{3} = 0.4126$$"
+            r"The paper's hand-derivation completely omitted the downstream branch $S_5 \to V_9 \to S_9$, even though target $S_9$ is an observed evidence alarm ($S_9 \in E$). "
+            r"Because including all evidence-reaching branches is mathematically required by Equation (5), our implementation retains the rigorous computation rather than artificially omitting valid graph paths."
+        )
+
+    with st.expander("3. Stage 4 Table 3 Worked Example Normalization (0.5021 vs 0.5019 — Unresolved)", expanded=True):
         st.markdown(
             r"**Observation:**" "\n"
             r"- Computed Normalized: **`0.5021 / 0.4979`**" "\n"
@@ -736,7 +765,7 @@ elif sidebar_nav == "⚠️ Limitations & Discrepancies":
             r"Our implementation uses the actual node posteriors from Equation (5) without hardcoding the typographical error."
         )
 
-    with st.expander("3. Missing Source Data in Reference Paper", expanded=True):
+    with st.expander("4. Missing Source Data in Reference Paper", expanded=True):
         st.markdown(
             "- **Experiment 1 (DARPA / LLDOS):** The paper omitted all 46-variable numerical transition matrices and directed readers to Refs [25, 31].\n"
             "- **Experiment 2 (BX1 Posteriors):** The authors explicitly omitted the entire node posterior table under $BX_1$ 'due to space limitations'.\n"

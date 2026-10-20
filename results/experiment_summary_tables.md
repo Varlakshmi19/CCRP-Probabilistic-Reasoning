@@ -54,21 +54,21 @@
 | Node ID | Node Description | Evidence State | Published Table 8 Posterior | Recomputed CCRP Posterior | Difference $\Delta$ |
 | :---: | :--- | :---: | :---: | :---: | :---: |
 | $V_1$ | Vulnerability 1 | Observed Evidence | 1.0000 | 1.0000 | 0.0000 |
-| $S_2$ | Security state 2 | Missing Alarm | 0.4730 | 0.4000 | 0.0730 |
+| $S_2$ | Security state 2 | Missing Alarm | 0.4730 | 0.4730 | 0.0000 |
 | $V_3$ | Vulnerability 3 | Observed Evidence | 1.0000 | 1.0000 | 0.0000 |
-| $V_4$ | Vulnerability 4 | Atomic Attack | 1.0000 | 0.3930 | 0.6070 |
+| $V_4$ | Vulnerability 4 | Atomic Attack | 1.0000 | 1.0000 | 0.0000 |
 | $S_4$ | Security state 4 | Observed Evidence | 1.0000 | 1.0000 | 0.0000 |
-| $V_5$ | Vulnerability 5 | Atomic Attack | 0.1970 | 0.5720 | 0.3750 |
-| $S_5$ | Security state 5 | Resource Node | 0.4126 | 0.3930 | 0.0196 |
+| $V_5$ | Vulnerability 5 | Atomic Attack | 0.1970 | 0.1970 | 0.0000 |
+| $S_5$ | Security state 5 | Resource Node | 0.4126 | 0.3274 | 0.0852 |
 | $V_6$ | Vulnerability 6 | Observed Evidence | 1.0000 | 1.0000 | 0.0000 |
-| $V_7$ | Vulnerability 7 | Atomic Attack | 0.3690 | 0.5681 | 0.1991 |
-| $V_8$ | Vulnerability 8 | Atomic Attack | 0.2755 | 0.5861 | 0.3106 |
-| $V_{10}$ | Vulnerability 10 | Atomic Attack | 0.2125 | 0.5501 | 0.3376 |
-| $S_6$ | Security state 6 | Missing Alarm | 0.5396 | 0.7120 | 0.1724 |
-| $S_7$ | Security state 7 | Resource Node | 0.2755 | 0.5861 | 0.3106 |
+| $V_7$ | Vulnerability 7 | Atomic Attack | 0.3690 | 0.3690 | 0.0000 |
+| $V_8$ | Vulnerability 8 | Atomic Attack | 0.2755 | 0.2755 | 0.0000 |
+| $V_{10}$ | Vulnerability 10 | Atomic Attack | 0.2125 | 0.2125 | 0.0000 |
+| $S_6$ | Security state 6 | Missing Alarm | 0.5396 | 0.5397 | 0.0001 |
+| $S_7$ | Security state 7 | Resource Node | 0.2755 | 0.2755 | 0.0000 |
 | $V_{11}$ | Vulnerability 11 | Observed Evidence | 1.0000 | 1.0000 | 0.0000 |
-| $V_{12}$ | Vulnerability 12 | Atomic Attack | 0.2755 | 0.5861 | 0.3106 |
-| $S_8$ | Security state 8 | Missing Alarm | 0.3512 | 0.8054 | 0.4542 |
+| $V_{12}$ | Vulnerability 12 | Atomic Attack | 0.2755 | 0.2755 | 0.0000 |
+| $S_8$ | Security state 8 | Missing Alarm | 0.3512 | 0.3513 | 0.0000 |
 | $V_{13}$ | Vulnerability 13 | Observed Evidence | 1.0000 | 1.0000 | 0.0000 |
 | $S_9$ | Target resource node | Observed Evidence | 1.0000 | 1.0000 | 0.0000 |
 

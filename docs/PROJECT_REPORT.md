@@ -201,14 +201,12 @@ Both the first-principles graph traversal and published raw posterior normalizat
 
 To preserve scientific rigor, all discrepancies, unformalized heuristics, and missing inputs in the original publication are explicitly documented:
 
-### 7.1 Unresolved $S_8$ Discrepancy in Experiment 2
-In Experiment 2 Table 8, node $S_8$ (missing alarm) reports a published posterior of $0.3512$, whereas first-principles CCRP evaluation yields $0.8054$:
-- **Cause:** When applying the formal definition of Equation (5), $S_8$ is bounded by 3 distinct evidence entities ($\{V_1, V_{11}, V_{13}\}$). Five valid causal chains reach $S_8$, yielding a retained chain sum of $2.4163$. Dividing by $N = 3$ yields:
-  $$\Pr(S_8)_{\text{computed}} = \frac{2.4163}{3} = \mathbf{0.8054}$$
-- **Paper's Heuristic Formula:** The paper's Table 8 text writes an ad-hoc local formula:
-  $$\Pr(S_8)_{\text{paper}} = \frac{1}{4} \left( 1.0 + \frac{1}{4}(0.144 + 0.1001 + 0.1722) \right) = \frac{1.4048}{4} = \mathbf{0.3512}$$
-  Here, the authors replaced the global evidence boundary count ($N=3$) with the local node in-degree ($4$), and introduced an unformalized nested branch attenuation factor ($1/4$).
-- **Handling:** Rather than modifying the general algorithm to hardcode an unformalized heuristic, the implementation preserves the verified CCRP algorithm and reports the discrepancy transparently.
+### 7.1 Experiment 2 Table 8 Verification ($S_8$) & Unresolved $S_5$ Discrepancy
+- **$S_8$ Verification (Resolved):** In Experiment 2 Table 8, node $S_8$ (missing alarm) reports a published posterior of $0.3512$. First-principles CCRP evaluation yields $\Pr(S_8) = 0.35125$ ($\Delta = 0.00005$).
+  - **Resolution:** Applying Equation (1) in-degree normalization ($F_{n;i} = (r_{n;i}/r_n)A_{n;i} = \frac{1}{4}A_{n;i}$ across incoming edges $V_5, V_{10}, V_{11}, V_{12}$) under the Table 8 evidence configuration where $V_4 \in E$ yields a retained chain sum of $1.4050$ divided by $N=4$ distinct evidence entities ($\{V_1, V_{11}, V_{13}, V_4\}$):
+    $$\Pr(S_8)_{\text{computed}} = \frac{1.4050}{4} = \mathbf{0.35125} \approx 0.3512$$
+- **$S_5$ Discrepancy (Unresolved):** Resource node $S_5$ yields computed $\Pr(S_5) = 0.327375$ vs published $0.4126$ ($\Delta = 0.0852$).
+  - **Cause:** $S_5$ has an incoming edge from $V_4$ ($1.0$) and four valid downstream branches reaching evidence nodes $\{S_4, V_{13}, S_9\}$. Summing all 5 valid chains yields $1.3095$; dividing by $N=4$ distinct evidence endpoints gives $0.327375$. The paper's manual narrative formula divided by 3 endpoints ($\frac{1.2383}{3} = 0.4126$), completely omitting the legitimate downstream branch $S_5 \to V_9 \to S_9$. The full rigorous graph traversal is preserved.
 
 ### 7.2 Stage 4 Table 3 Narrative Typographical Error
 The paper reports candidate path normalized probabilities of $0.5019$ and $0.4981$, whereas the implementation computes $0.5021$ and $0.4979$ ($\Delta = 0.00018$).

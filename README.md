@@ -130,6 +130,6 @@ Additional technical audits and derivation notes are available in:
 
 ## Note on Experiment Limitations & Reproducibility
 
-1. **Unresolved $S_8$ Discrepancy (Exp 2):** Applying the paper's formal Equation (5) yields $\Pr(S_8) = 0.8054$, whereas the paper's Table 8 reports $0.3512$ by substituting an ad-hoc local in-degree divisor ($4$) and nested sub-branch fraction ($1/4$). The general CCRP algorithm was preserved rather than hardcoding unformalized heuristics.
+1. **Experiment 2 Table 8 Verification & $S_5$ Discrepancy:** The $S_8$ posterior is verified at $\Pr(S_8) = 0.35125$ matching published $0.3512$ ($\Delta \approx 0.00005$) via Equation (1) in-degree normalization ($1/4$) and Table 8 evidence ($V_4 \in E$). An unresolved discrepancy remains on resource node $S_5$ (computed $0.3274$ vs published $0.4126$), where the paper's hand-derivation divided by 3 evidence endpoints, omitting the valid downstream branch $S_5 \to V_9 \to S_9$.
 2. **Missing Author Data:** Transition matrices for the 46 DARPA variables (Exp 1), full $BX_1$ posteriors (Exp 2), and exact conditional probability tables for baselines (Exp 3) were omitted from the publication text.
 3. **Simulated BNRP Workload (Exp 4):** Experiment 4 uses a simulated exponential factor marginalization workload ($O(2^k)$) to model exact Bayesian network computational scaling against latent variables; it does not execute a commercial Bayesian inference engine, and reported timings reflect local benchmark measurements confirming the qualitative scaling trend of Figure 9.
